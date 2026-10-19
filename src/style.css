@@ -375,7 +375,7 @@ footer a:hover { text-decoration: underline; }
 .viewer-wrapper {
   position: relative;
   width: 100%;
-  height: 600px; /* Высота окна 3D */
+  height: 600px;
   background: #0d0d10;
   overflow: hidden;
 }
@@ -385,7 +385,6 @@ footer a:hover { text-decoration: underline; }
   height: 100%;
 }
 
-/* Панель со списком блоков */
 .block-info-panel {
   position: absolute;
   top: 16px;
@@ -393,7 +392,7 @@ footer a:hover { text-decoration: underline; }
   width: 260px;
   max-height: calc(100% - 32px);
   overflow-y: auto;
-  background: rgba(18, 18, 22, 0.85); /* Полупрозрачный фон */
+  background: rgba(18, 18, 22, 0.85);
   backdrop-filter: blur(8px);
   border: 1px solid var(--border-light);
   border-radius: 8px;
@@ -402,18 +401,12 @@ footer a:hover { text-decoration: underline; }
   font-family: var(--font-main);
   font-size: 13px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.6);
-  pointer-events: auto; /* Чтобы можно было скроллить */
+  pointer-events: auto;
   z-index: 10;
 }
 
-/* Кастомизация скроллбара в панели */
-.block-info-panel::-webkit-scrollbar {
-  width: 6px;
-}
-.block-info-panel::-webkit-scrollbar-thumb {
-  background: var(--border-light);
-  border-radius: 3px;
-}
+.block-info-panel::-webkit-scrollbar { width: 6px; }
+.block-info-panel::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 3px; }
 
 .block-info-panel h4 {
   margin: 0 0 12px 0;
@@ -453,6 +446,25 @@ footer a:hover { text-decoration: underline; }
 .block-info-list strong {
   color: var(--gold);
   font-family: var(--font-mono);
+}
+
+/* ===== НИЖНЯЯ ПАНЕЛЬ В МОДАЛКЕ (СКАЧИВАНИЕ) ===== */
+.modal-footer {
+  padding: 16px 24px;
+  border-top: 1px solid var(--border);
+  background: var(--panel);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-footer .btn {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
 }
 
 /* ===== АДАПТИВ ===== */

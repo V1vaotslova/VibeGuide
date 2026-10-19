@@ -8,7 +8,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
-  <!-- Подключение стилей через Vite -->
   <link rel="stylesheet" href="/src/style.css">
 </head>
 <body>
@@ -102,7 +101,6 @@
         <p class="section-sub">Кликни на карточку — откроется 3D-просмотр.</p>
 
         <div class="grid">
-          <!-- Карточка 1: Железо -->
           <div class="card" data-schema="iron_farm.litematic" data-name="Ферма железа">
             <div class="card-thumb" style="background-image: url('/img/iron_farm.jpg');"></div>
             <div class="card-body">
@@ -112,7 +110,6 @@
             </div>
           </div>
           
-          <!-- Карточка 2: Криперы -->
           <div class="card" data-schema="creeper_farm.litematic" data-name="Ферма криперов">
             <div class="card-thumb" style="background-image: url('/img/creeper_farm.jpg');"></div>
             <div class="card-body">
@@ -382,30 +379,33 @@
     </footer>
   </div>
 
-  <!-- Модалка 3D (Список блоков теперь внутри, добавлена подсказка по управлению) -->
+  <!-- Модалка 3D -->
   <div class="modal" id="modal">
     <div class="modal-inner">
       <div class="modal-header">
         <h3 id="modalTitle">Просмотр схемы</h3>
-        <!-- Подсказка по управлению -->
         <div class="modal-hint" style="font-size: 12px; color: var(--muted); font-family: var(--font-mono); text-align: center;">
-          WASD — полет | Мышка — обзор | <strong>Esc — вернуть курсор (чтобы листать список)</strong>
+          WASD — полет | Мышка — обзор | <strong>Esc — вернуть курсор</strong>
         </div>
         <button class="close-btn" id="closeModalBtn">✕</button>
       </div>
       
       <div class="viewer-wrapper">
         <div class="viewer" id="viewer"></div>
-        <!-- Окошко со списком блоков -->
         <div id="block-info" class="block-info-panel">
           <h4>Загрузка блоков...</h4>
         </div>
       </div>
 
+      <!-- НОВАЯ ПАНЕЛЬ ДЛЯ СКАЧИВАНИЯ -->
+      <div class="modal-footer">
+        <a href="#" id="downloadLink" class="btn btn-green" download style="width: 100%; text-align: center;">
+          Скачать схему (.litematic)
+        </a>
+      </div>
     </div>
   </div>
 
-  <!-- Подключение скриптов через Vite -->
   <script type="module" src="/src/main.js"></script>
 </body>
 </html>

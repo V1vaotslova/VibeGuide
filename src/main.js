@@ -4,31 +4,61 @@ import * as THREE from 'three';
 import { Litematic } from '@kleppe/litematic-reader'; 
 import './style.css';
 
-// Словарь перевода популярных блоков на русский
+// Огромный словарь перевода блоков
 const blockTranslations = {
-  "stone": "Камень", "cobblestone": "Булыжник", "dirt": "Земля", "grass_block": "Травяной блок",
-  "sand": "Песок", "gravel": "Гравий", "oak_log": "Дубовое бревно", "oak_planks": "Дубовые доски",
-  "oak_slab": "Дубовая плита", "oak_stairs": "Дубовая лестница", "oak_fence": "Дубовый забор",
-  "oak_trapdoor": "Дубовый люк", "glass": "Стекло", "glass_pane": "Стеклянная панель",
+  "stone": "Камень", "smooth_stone": "Гладкий камень", "smooth_stone_slab": "Плита из гладкого камня",
+  "smooth_stone_stairs": "Ступени из гладкого камня", "cobblestone": "Булыжник", "cobblestone_slab": "Плита из булыжника",
+  "cobblestone_stairs": "Ступени из булыжника", "stone_bricks": "Каменный кирпич", "stone_brick_slab": "Плита из каменного кирпича",
+  "stone_brick_stairs": "Ступени из каменного кирпича", "dirt": "Земля", "dirt_path": "Тропинка", "grass_block": "Травяной блок",
+  "coarse_dirt": "Каменистая земля", "rooted_dirt": "Земля с корнями", "podzol": "Подзол", "mycelium": "Мицелий",
+  "sand": "Песок", "red_sand": "Красный песок", "gravel": "Гравий", "clay": "Глина",
+  "oak_log": "Дубовое бревно", "oak_planks": "Дубовые доски", "oak_slab": "Дубовая плита",
+  "oak_stairs": "Дубовые ступени", "oak_fence": "Дубовый забор", "oak_fence_gate": "Дубовая калитка",
+  "oak_door": "Дубовая дверь", "oak_trapdoor": "Дубовый люк", "oak_sapling": "Дубовый саженец",
+  "oak_leaves": "Дубовая листва", "oak_wall_sign": "Дубовая настенная табличка",
+  "spruce_log": "Еловое бревно", "spruce_planks": "Еловые доски", "birch_log": "Берёзовое бревно",
+  "birch_planks": "Берёзовые доски", "jungle_log": "Бревно тропического дерева", "acacia_log": "Акациевое бревно",
+  "dark_oak_log": "Бревно тёмного дуба", "mangrove_log": "Мангровое бревно", "cherry_log": "Вишнёвое бревно",
+  "crimson_stem": "Багровый стебель", "warped_stem": "Искажённый стебель",
+  "glass": "Стекло", "glass_pane": "Стеклянная панель", "tinted_glass": "Тонированное стекло",
+  "white_stained_glass": "Белое стекло", "black_stained_glass": "Чёрное стекло",
   "iron_block": "Железный блок", "iron_bars": "Железные прутья", "iron_trapdoor": "Железный люк",
-  "hopper": "Воронка", "chest": "Сундук", "trapped_chest": "Сундук-ловушка", "furnace": "Печь",
+  "iron_door": "Железная дверь", "gold_block": "Золотой блок", "diamond_block": "Алмазный блок",
+  "emerald_block": "Изумрудный блок", "netherite_block": "Незеритовый блок", "copper_block": "Медный блок",
+  "hopper": "Воронка", "chest": "Сундук", "trapped_chest": "Сундук-ловушка", "ender_chest": "Эндер-сундук",
+  "barrel": "Бочка", "furnace": "Печь", "blast_furnace": "Плавильная печь", "smoker": "Коптильня",
+  "crafting_table": "Верстак", "cartography_table": "Стол картографа", "fletching_table": "Стол лучника",
+  "smithing_table": "Кузнечный стол", "stonecutter": "Камнерез", "loom": "Ткацкий станок",
+  "grindstone": "Точильный камень", "anvil": "Наковальня", "enchanting_table": "Стол зачарований",
+  "brewing_stand": "Варочная стойка", "cauldron": "Котёл", "bookshelf": "Книжная полка",
+  "chiseled_bookshelf": "Резная книжная полка", "lectern": "Кафедра", "composter": "Компостер",
   "water": "Вода", "lava": "Лава", "torch": "Факел", "wall_torch": "Настенный факел",
-  "redstone_wire": "Редстоун", "redstone_torch": "Редстоуновый факел", "repeater": "Повторитель",
+  "soul_torch": "Факел душ", "lantern": "Фонарь", "soul_lantern": "Фонарь душ", "campfire": "Костёр",
+  "soul_campfire": "Костёр душ", "redstone_wire": "Редстоун", "redstone_torch": "Редстоуновый факел",
+  "redstone_block": "Блок редстоуна", "repeater": "Повторитель", "comparator": "Компаратор",
   "observer": "Наблюдатель", "piston": "Поршень", "sticky_piston": "Липкий поршень",
-  "dispenser": "Раздатчик", "dropper": "Выбрасыватель", "lever": "Рычаг",
-  "stone_button": "Каменная кнопка", "oak_button": "Дубовая кнопка", "oak_pressure_plate": "Дубовая нажимная плита",
-  "crafting_table": "Верстак", "bookshelf": "Книжная полка", "campfire": "Костёр",
-  "scaffolding": "Строительные леса", "lantern": "Фонарь", "soul_lantern": "Фонарь душ",
-  "cobweb": "Паутина", "cactus": "Кактус", "sugar_cane": "Сахарный тростник",
-  "bamboo": "Бамбук", "kelp": "Ламинария", "sea_pickle": "Морской огурец",
-  "soul_sand": "Песок душ", "magma_block": "Магмовый блок", "obsidian": "Обсидиан",
-  "netherrack": "Адский камень", "nether_bricks": "Адский кирпич", "glowstone": "Светокамень",
-  "iron_door": "Железная дверь", "oak_door": "Дубовая дверь", "oak_fence_gate": "Дубовая калитка",
-  "note_block": "Нотный блок", "jukebox": "Проигрыватель", "tnt": "Динамит",
-  "slime_block": "Блок слизи", "honey_block": "Блок мёда", "soul_campfire": "Костёр душ",
-  "mud_bricks": "Грязевые кирпичи", "packed_mud": "Утрамбованная грязь", "white_wool": "Белая шерсть",
-  "black_wool": "Чёрная шерсть", "red_wool": "Красная шерсть", "stone_bricks": "Каменный кирпич",
-  "smooth_stone": "Гладкий камень", "deepslate": "Глубинный сланец", "cobbled_deepslate": "Булыжный глубинный сланец"
+  "dispenser": "Раздатчик", "dropper": "Выбрасыватель", "hopper_minecart": "Вагонетка с воронкой",
+  "lever": "Рычаг", "stone_button": "Каменная кнопка", "oak_button": "Дубовая кнопка",
+  "oak_pressure_plate": "Дубовая нажимная плита", "stone_pressure_plate": "Каменная нажимная плита",
+  "tripwire_hook": "Крюк", "tripwire": "Растяжка", "target": "Мишень", "daylight_detector": "Датчик дневного света",
+  "note_block": "Нотный блок", "jukebox": "Проигрыватель", "tnt": "Динамит", "slime_block": "Блок слизи",
+  "honey_block": "Блок мёда", "scaffolding": "Строительные леса", "ladder": "Лестница",
+  "cobweb": "Паутина", "cactus": "Кактус", "sugar_cane": "Сахарный тростник", "bamboo": "Бамбук",
+  "kelp": "Ламинария", "sea_pickle": "Морской огурец", "lily_pad": "Кувшинка", "vine": "Лианы",
+  "short_grass": "Короткая трава", "tall_grass": "Высокая трава", "fern": "Папоротник",
+  "dead_bush": "Сухой куст", "dandelion": "Одуванчик", "poppy": "Мак", "blue_orchid": "Синяя орхидея",
+  "soul_sand": "Песок душ", "soul_soil": "Почва душ", "magma_block": "Магмовый блок",
+  "obsidian": "Обсидиан", "crying_obsidian": "Плачущий обсидиан", "netherrack": "Адский камень",
+  "nether_bricks": "Адский кирпич", "glowstone": "Светокамень", "shroomlight": "Грибной свет",
+  "basalt": "Базальт", "blackstone": "Чернокамень", "white_wool": "Белая шерсть",
+  "black_wool": "Чёрная шерсть", "red_wool": "Красная шерсть", "blue_wool": "Синяя шерсть",
+  "green_wool": "Зелёная шерсть", "mud_bricks": "Грязевые кирпичи", "packed_mud": "Утрамбованная грязь",
+  "deepslate": "Глубинный сланец", "cobbled_deepslate": "Булыжный глубинный сланец",
+  "polished_deepslate": "Полированный глубинный сланец", "tuff": "Туф", "calcite": "Кальцит",
+  "amethyst_block": "Аметистовый блок", "white_bed": "Белая кровать", "red_bed": "Красная кровать",
+  "lightning_rod": "Громоотвод", "snow_block": "Блок снега", "ice": "Лёд", "packed_ice": "Плотный лёд",
+  "blue_ice": "Синий лёд", "moss_block": "Блок мха", "moss_carpet": "Мшистый ковёр",
+  "azalea_leaves": "Листва азалии", "flowering_azalea_leaves": "Цветущая листва азалии"
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -38,17 +68,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const closeBtn = document.getElementById('closeModalBtn');
   const viewer = document.getElementById('viewer');
   const blockInfoPanel = document.getElementById('block-info');
-  const hintEl = modal.querySelector('.modal-hint'); // Подсказка в шапке
+  const hintEl = modal.querySelector('.modal-hint');
+  const downloadLink = document.getElementById('downloadLink'); // Кнопка скачивания
 
   let animationFrameId = null;
   let currentRenderer = null;
   let keysPressed = {}; 
 
-  // Функция перевода названия блока
   function translateBlock(blockId) {
     const cleanId = blockId.replace('minecraft:', '');
-    // Если нет в словаре — делаем красивое название (убираем подчеркивания)
-    return blockTranslations[cleanId] || cleanId.replace(/_/g, ' '); 
+    if (blockTranslations[cleanId]) return blockTranslations[cleanId];
+    
+    // Умный фолбэк, если блока нет в словаре
+    let fallback = cleanId.replace(/_/g, ' ');
+    return fallback.charAt(0).toUpperCase() + fallback.slice(1);
   }
 
   document.querySelectorAll('.card').forEach(card => {
@@ -59,6 +92,12 @@ document.addEventListener('DOMContentLoaded', () => {
       modalTitle.textContent = 'VibeGuide 3D: ' + name;
       modal.classList.add('open');
       
+      // === Настраиваем кнопку скачивания ===
+      downloadLink.href = `/schemas/${schemaFile}`;
+      downloadLink.setAttribute('download', schemaFile);
+      downloadLink.style.opacity = '0.5'; // Делаем полупрозрачной, пока идет загрузка
+      downloadLink.textContent = 'Скачать схему (.litematic)';
+
       viewer.innerHTML = '<div style="color: var(--muted); font-family: var(--font-mono); display:flex; align-items:center; justify-content:center; height:100%;">Загрузка 3D модели...</div>';
       blockInfoPanel.innerHTML = '<h4>Считаем блоки...</h4>';
 
@@ -68,6 +107,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!response.ok) throw new Error('Файл схемы не найден');
         const buffer = await response.arrayBuffer();
         
+        // Активируем кнопку скачивания
+        downloadLink.style.opacity = '1';
+
         // 2. Парсим 3D структуру
         const structure = LitematicLoader.load(new Uint8Array(buffer));
 
@@ -79,7 +121,6 @@ document.addEventListener('DOMContentLoaded', () => {
           let html = '<h4>Необходимые блоки</h4><ul class="block-info-list">';
           let totalBlocks = 0;
           
-          // Сортируем блоки по убыванию количества
           const sortedBlocks = Object.entries(palette)
             .filter(([id]) => !id.includes('air'))
             .sort((a, b) => b[1].count - a[1].count);
@@ -125,17 +166,15 @@ document.addEventListener('DOMContentLoaded', () => {
         let yaw = -Math.PI / 4;
         let pitch = -Math.PI / 6;
 
-        // Подсказка по умолчанию
         hintEl.innerHTML = 'WASD — полет | Мышка — обзор | <strong>Кликни по 3D, чтобы начать</strong>';
 
-        // Обработка захвата мыши
         canvas.addEventListener('click', () => {
           canvas.requestPointerLock();
         });
 
         document.addEventListener('pointerlockchange', () => {
           if (document.pointerLockElement === canvas) {
-            hintEl.innerHTML = 'WASD — полет | Мышка — обзор | <strong>Esc — вернуть курсор (чтобы листать список)</strong>';
+            hintEl.innerHTML = 'WASD — полет | Мышка — обзор | <strong>Esc — вернуть курсор</strong>';
           } else {
             hintEl.innerHTML = 'WASD — полет | Мышка — обзор | <strong>Кликни по 3D, чтобы начать</strong>';
           }
@@ -194,6 +233,10 @@ document.addEventListener('DOMContentLoaded', () => {
       } catch (error) {
         console.error(error);
         viewer.innerHTML = `<div style="color: #e74c3c; padding: 20px; text-align:center;">Ошибка: ${error.message}</div>`;
+        // Если файл не загрузился, отключаем кнопку
+        downloadLink.style.opacity = '0.5';
+        downloadLink.textContent = 'Файл не найден';
+        downloadLink.removeAttribute('href');
       }
     });
   });
