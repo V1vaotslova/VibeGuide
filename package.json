@@ -1,0 +1,21 @@
+{
+  "name": "vibeguide",
+  "version": "1.0.0",
+  "description": "VibeGuide for PlusVibe server",
+  "main": "src/main.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@kleppe/litematic-reader": "^1.0.11",
+    "@mattzh72/lodestone": "^0.6.0",
+    "three": "^0.164.1",
+    "vite": "^8.3.4"
+  }
+}

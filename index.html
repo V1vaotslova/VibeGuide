@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VibeGuide — Гайд по Minecraft для PlusVibe</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- Подключение стилей через Vite -->
+  <link rel="stylesheet" href="/src/style.css">
+</head>
+<body>
+
+  <!-- ===== БОКОВАЯ ПАНЕЛЬ ===== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <span class="logo-letter">V</span>
+      <span class="logo-full">VibeGuide<span class="cursor">_</span></span>
+    </div>
+    
+    <nav class="sidebar-nav">
+      <a href="#schemas" class="sidebar-link">
+        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+          <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+          <line x1="12" y1="22.08" x2="12" y2="12"></line>
+        </svg>
+        <span class="sidebar-text">3D Схемы</span>
+      </a>
+      
+      <a href="#enchants" class="sidebar-link">
+        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+        </svg>
+        <span class="sidebar-text">Чары</span>
+      </a>
+      
+      <a href="#guides" class="sidebar-link">
+        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+        </svg>
+        <span class="sidebar-text">Гайды</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a href="https://server.play-plusvibe.ru/" target="_blank" class="sidebar-server">
+        <svg class="server-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+        <span class="server-text">На сервер</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- ===== ОСНОВНОЙ КОНТЕНТ ===== -->
+  <div class="main-content">
+    <div class="status-bar">
+      <div class="status-left"><span class="dot online"></span> SERVER ONLINE</div>
+      <div class="status-right">3 / 100 PLAYERS ONLINE • MINECRAFT 1.21.11</div>
+    </div>
+
+    <!-- Hero -->
+    <div class="hero">
+      <div class="hero-tag">MINECRAFT 1.21.11 / SIMPLE SURVIVAL</div>
+      <h1><span id="hero-typewriter"></span><span class="hero-cursor">_</span></h1>
+      <p>Твой помощник для выживания на PlusVibe. 3D-схемы автоферм, лучшие чары и мини-гайды — всё в одном месте.</p>
+      
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-label">WORLD DAY</span>
+          <span class="stat-value">33 / 365</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">DIMENSIONS</span>
+          <span class="stat-value text-green">ALL OPEN</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">COMMUNITY</span>
+          <span class="stat-value">19 PLAYERS</span>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <a href="#schemas" class="btn btn-green">СМОТРЕТЬ СХЕМЫ</a>
+        <a href="https://server.play-plusvibe.ru/" target="_blank" class="btn btn-ghost">НА СЕРВЕР</a>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- ===== 3D СХЕМЫ ===== -->
+      <section id="schemas">
+        <div class="section-header">
+          <span class="section-tag">// BUILDINGS</span>
+          <h2 class="section-title">3D СХЕМЫ</h2>
+        </div>
+        <p class="section-sub">Кликни на карточку — откроется 3D-просмотр.</p>
+
+        <div class="grid">
+          <!-- Карточка 1: Железо -->
+          <div class="card" data-schema="iron_farm.litematic" data-name="Ферма железа">
+            <div class="card-thumb" style="background-image: url('/img/iron_farm.jpg');"></div>
+            <div class="card-body">
+              <h3>Ферма железа</h3>
+              <p>Классическая деревенская ферма на 300+ слитков в час.</p>
+              <div class="card-tags"><span class="tag">1.21</span><span class="tag">AUTO</span></div>
+            </div>
+          </div>
+          
+          <!-- Карточка 2: Криперы -->
+          <div class="card" data-schema="creeper_farm.litematic" data-name="Ферма криперов">
+            <div class="card-thumb" style="background-image: url('/img/creeper_farm.jpg');"></div>
+            <div class="card-body">
+              <h3>Ферма криперов</h3>
+              <p>Порох и головы. Компактная схема 21×21×35.</p>
+              <div class="card-tags"><span class="tag">1.21</span><span class="tag">MOB</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== ЧАРЫ ===== -->
+      <section id="enchants">
+        <div class="section-header">
+          <span class="section-tag">// ENCHANTING</span>
+          <h2 class="section-title">ЛУЧШИЕ ЧАРЫ</h2>
+        </div>
+        <p class="section-sub">Актуальный сетап для экипировки (версия 1.21). Наведи на тег чара, чтобы узнать, что он делает.</p>
+
+        <div class="subsection-title">// БРОНЯ</div>
+        <div class="ench-grid">
+          <div class="ench-card">
+            <div class="ench-header">
+              <img src="https://minecraft.wiki/images/Invicon_Netherite_Helmet.png" alt="Шлем" class="ench-icon-img">
+              <h3>Шлем</h3>
+            </div>
+            <div class="ench-tags">
+              <span class="ench-tag tooltip">Защита IV<span class="tooltiptext">Снижает весь входящий урон на 16% за уровень.</span></span>
+              <span class="ench-tag tooltip">Подводное дыхание III<span class="tooltiptext">Увеличивает время дыхания под водой.</span></span>
+              <span class="ench-tag tooltip">Шипы III<span class="tooltiptext">Наносит урон атакующему.</span></span>
+              <span class="ench-tag tooltip">Прочность III<span class="tooltiptext">Снижает износ предмета на 75%.</span></span>
+              <span class="ench-tag tag-gold tooltip">Починка<span class="tooltiptext">Восстанавливает прочность за опыт.</span></span>
+            </div>
+          </div>
+
+          <div class="ench-card">
+            <div class="ench-header">
+              <img src="https://minecraft.wiki/images/Invicon_Netherite_Chestplate.png" alt="Нагрудник" class="ench-icon-img">
+              <h3>Нагрудник</h3>
+            </div>
+            <div class="ench-tags">
+              <span class="ench-tag tooltip">Защита IV<span class="tooltiptext">Снижает весь входящий урон.</span></span>
+              <span class="ench-tag tooltip">Шипы III<span class="tooltiptext">Наносит урон атакующему.</span></span>
+              <span class="ench-tag tooltip">Прочность III<span class="tooltiptext">Снижает износ предмета на 75%.</span></span>
+              <span class="ench-tag tag-gold tooltip">Починка<span class="tooltiptext">Восстанавливает прочность.</span></span>
+            </div>
+          </div>
+
+          <div class="ench-card">
+            <div class="ench-header">
+              <img src="https://minecraft.wiki/images/Invicon_Netherite_Leggings.png" alt="Штаны" class="ench-icon-img">
+              <h3>Штаны</h3>
+            </div>
+            <div class="ench-tags">
+              <span class="ench-tag tooltip">Защита IV<span class="tooltiptext">Снижает весь входящий урон.</span></span>
+              <span class="ench-tag tooltip">Проворство III<span class="tooltiptext">Скорость в приседе.</span></span>
+              <span class="ench-tag tooltip">Прочность III<span class="tooltiptext">Снижает износ предмета на 75%.</span></span>
+              <span class="ench-tag tag-gold tooltip">Починка<span class="tooltiptext">Восстанавливает прочность.</span></span>
+            </div>
+          </div>
+
+          <div class="ench-card">
+            <div class="ench-header">
+              <img src="https://minecraft.wiki/images/Invicon_Netherite_Boots.png" alt="Ботинки" class="ench-icon-img">
+              <h3>Ботинки</h3>
+            </div>
+            <div class="ench-tags">
+              <span class="ench-tag tooltip">Защита IV<span class="tooltiptext">Снижает весь входящий урон.</span></span>
+              <span class="ench-tag tooltip">Невесомость IV<span class="tooltiptext">Снижает урон от падения.</span></span>
+              <span class="ench-tag tooltip">Скорость души III<span class="tooltiptext">Скорость по песку душ.</span></span>
+              <span class="ench-tag tooltip">Прочность III<span class="tooltiptext">Снижает износ предмета на 75%.</span></span>
+              <span class="ench-tag tag-gold tooltip">Починка<span class="tooltiptext">Восстанавливает прочность.</span></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection-title">// ИНСТРУМЕНТЫ</div>
+        <div class="ench-grid">
+          <div class="ench-card">
+            <div class="ench-header">
+              <img src="https://minecraft.wiki/images/Invicon_Netherite_Pickaxe.png" alt="Кирка" class="ench-icon-img">
+              <h3>Кирка (Удача)</h3>
+            </div>
+            <div class="ench-tags">
+              <span class="ench-tag tooltip">Эффективность V<span class="tooltiptext">Ускоряет добычу.</span></span>
+              <span class="ench-tag tooltip">Удача III<span class="tooltiptext">Больше ресурсов.</span></span>
+              <span class="ench-tag tooltip">Прочность III<span class="tooltiptext">Снижает износ предмета на 75%.</span></span>
+              <span class="ench-tag tag-gold tooltip">Починка<span class="tooltiptext">Восстанавливает прочность.</span></span>
+            </div>
+          </div>
+
+          <div class="ench-card">
+            <div class="ench-header">
+              <img src="https://minecraft.wiki/images/Invicon_Netherite_Pickaxe.png" alt="Кирка" class="ench-icon-img">
+              <h3>Кирка (Шелк)</h3>
+            </div>
+            <div class="ench-tags">
+              <span class="ench-tag tooltip">Эффективность V<span class="tooltiptext">Ускоряет добычу.</span></span>
+              <span class="ench-tag tooltip">Шелковое касание<span class="tooltiptext">Блоки в исходном виде.</span></span>
+              <span class="ench-tag tooltip">Прочность III<span class="tooltiptext">Снижает износ предмета на 75%.</span></span>
+              <span class="ench-tag tag-gold tooltip">Починка<span class="tooltiptext">Восстанавливает прочность.</span></span>
+            </div>
+          </div>
+
+          <div class="ench-card">
+            <div class="ench-header">
+              <img src="https://minecraft.wiki/images/Invicon_Netherite_Axe.png" alt="Топор" class="ench-icon-img">
+              <h3>Топор</h3>
+            </div>
+            <div class="ench-tags">
+              <span class="ench-tag tooltip">Эффективность V<span class="tooltiptext">Ускоряет добычу.</span></span>
+              <span class="ench-tag tooltip">Острота V<span class="tooltiptext">Увеличивает урон.</span></span>
+              <span class="ench-tag tooltip">Прочность III<span class="tooltiptext">Снижает износ предмета на 75%.</span></span>
+              <span class="ench-tag tag-gold tooltip">Починка<span class="tooltiptext">Восстанавливает прочность.</span></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection-title">// ОРУЖИЕ</div>
+        <div class="ench-grid">
+          <div class="ench-card">
+            <div class="ench-header">
+              <img src="https://minecraft.wiki/images/Invicon_Netherite_Sword.png" alt="Меч" class="ench-icon-img">
+              <h3>Меч</h3>
+            </div>
+            <div class="ench-tags">
+              <span class="ench-tag tooltip">Острота V<span class="tooltiptext">Увеличивает урон.</span></span>
+              <span class="ench-tag tooltip">Разящий клинок III<span class="tooltiptext">Урон от размашистой атаки.</span></span>
+              <span class="ench-tag tooltip">Добыча III<span class="tooltiptext">Больше дропа с мобов.</span></span>
+              <span class="ench-tag tag-gold tooltip">Починка<span class="tooltiptext">Восстанавливает прочность.</span></span>
+            </div>
+          </div>
+
+          <div class="ench-card">
+            <div class="ench-header">
+              <img src="https://minecraft.wiki/images/Invicon_Trident.png" alt="Трезубец" class="ench-icon-img">
+              <h3>Трезубец</h3>
+            </div>
+            <div class="ench-tags">
+              <span class="ench-tag tooltip">Верность III<span class="tooltiptext">Возвращает трезубец.</span></span>
+              <span class="ench-tag tooltip">Пронизывание V<span class="tooltiptext">Урон по водным мобам.</span></span>
+              <span class="ench-tag tooltip">Тягун III<span class="tooltiptext">Тянет игрока.</span></span>
+              <span class="ench-tag tag-gold tooltip">Починка<span class="tooltiptext">Восстанавливает прочность.</span></span>
+            </div>
+          </div>
+
+          <div class="ench-card">
+            <div class="ench-header">
+              <img src="https://minecraft.wiki/images/Invicon_Bow.png" alt="Лук" class="ench-icon-img">
+              <h3>Лук</h3>
+            </div>
+            <div class="ench-tags">
+              <span class="ench-tag tooltip">Сила V<span class="tooltiptext">Урон от стрел.</span></span>
+              <span class="ench-tag tooltip">Отдача II<span class="tooltiptext">Отбрасывание цели.</span></span>
+              <span class="ench-tag tooltip">Бесконечность<span class="tooltiptext">Стрелы не тратятся.</span></span>
+              <span class="ench-tag tag-gold tooltip">Починка<span class="tooltiptext">Восстанавливает прочность.</span></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection-title">// ЭЛИТРЫ</div>
+        <div class="ench-grid">
+          <div class="ench-card">
+            <div class="ench-header">
+              <img src="https://minecraft.wiki/images/Invicon_Elytra.png" alt="Элитры" class="ench-icon-img">
+              <h3>Элитры</h3>
+            </div>
+            <div class="ench-tags">
+              <span class="ench-tag tooltip">Прочность III<span class="tooltiptext">Критически важно для элитр.</span></span>
+              <span class="ench-tag tag-gold tooltip">Починка<span class="tooltiptext">Восстанавливает прочность.</span></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== ГАЙДЫ ===== -->
+      <section id="guides">
+        <div class="section-header">
+          <span class="section-tag">// WIKI & GUIDES</span>
+          <h2 class="section-title">ПОЛЕЗНЫЕ ГАЙДЫ</h2>
+        </div>
+        <p class="section-sub">Нажми на гайд, чтобы раскрыть подробную инструкцию.</p>
+
+        <div class="guide-accordion">
+          <div class="guide-item">
+            <button class="guide-toggle">
+              <span>Как получить Починку (Mending) без читов</span>
+              <span class="guide-icon">+</span>
+            </button>
+            <div class="guide-content">
+              <p>Починка — самый важный чар на сервере, так как он экономит ресурсы. Вот 3 рабочих способа его получить:</p>
+              <ol>
+                <li><strong>Библиотекарь (Самый надежный):</strong> Найди деревню, поставь стол картографа рядом с библиотекарем. Если он не продает Починку — сломай лектерн и поставь заново, пока не появится нужный чар.</li>
+                <li><strong>Рыбалка:</strong> Ловля рыбы с чарами «Удача моря III» и «Приманка III» дает неплохой шанс выловить книгу с Починкой.</li>
+                <li><strong>Структуры:</strong> Ищи книги в сундуках подземелий, крепостей и лесных особняков.</li>
+              </ol>
+            </div>
+          </div>
+
+          <div class="guide-item">
+            <button class="guide-toggle">
+              <span>Удача III или Шелковое касание? Что выбрать?</span>
+              <span class="guide-icon">+</span>
+            </button>
+            <div class="guide-content">
+              <p>Эти чары <strong>несовместимы</strong>. Если наложить одно, другое исчезнет. Лучшее решение — сделать две кирки.</p>
+              <ul>
+                <li><strong>Кирка с Удачей III:</strong> Используй для добычи алмазов, изумрудов, золота, редстоуна и угля.</li>
+                <li><strong>Кирка с Шелковым касанием:</strong> Используй для добычи стекла, травы и блоков руды.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="guide-item">
+            <button class="guide-toggle">
+              <span>Почему элитры ломаются и как их чинить</span>
+              <span class="guide-icon">+</span>
+            </button>
+            <div class="guide-content">
+              <p>Элитры — единственный предмет в игре, который <strong>нельзя починить</strong> на наковальне обычным материалом.</p>
+              <ol>
+                <li><strong>Мембраны фантомов:</strong> Убей фантомов и соедини элитры и 1 мембрану на наковальне.</li>
+                <li><strong>Чары Починки:</strong> Надень элитры с Починкой и собирай опыт.</li>
+                <li><strong>Новые элитры:</strong> Если элитры сломались, их нельзя восстановить.</li>
+              </ol>
+            </div>
+          </div>
+
+          <div class="guide-item">
+            <button class="guide-toggle">
+              <span>Как защитить базу на PlusVibe от гриферов</span>
+              <span class="guide-icon">+</span>
+            </button>
+            <div class="guide-content">
+              <p>По правилам сервера PlusVibe гриферить нельзя, но лучше подстраховаться:</p>
+              <ul>
+                <li><strong>Скрытые сундуки:</strong> Сделай тайник под полом.</li>
+                <li><strong>Эндер-сундук:</strong> Самый безопасный способ хранения.</li>
+                <li><strong>Освещение:</strong> Хорошо освещай базу от криперов.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="guide-item">
+            <button class="guide-toggle">
+              <span>Булава (Mace) — как играть с новым оружием 1.21</span>
+              <span class="guide-icon">+</span>
+            </button>
+            <div class="guide-content">
+              <p>Булава — новое оружие, добавленное в обновлении 1.21. Её урон зависит от высоты падения.</p>
+              <ul>
+                <li><strong>Механика:</strong> Прыгни с высоты и ударь моба в падении.</li>
+                <li><strong>Чары «Плотность»:</strong> Увеличивает урон за каждый блок падения.</li>
+                <li><strong>Чары «Прорыв»:</strong> Снижает эффективность брони цели.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <footer>
+      <div class="footer-content">
+        <p><strong>VibeGuide</strong> — фанатский проект для игроков PlusVibe. Не связан с Mojang / Microsoft.</p>
+        <p><a href="https://server.play-plusvibe.ru/" target="_blank">Перейти на сервер PlusVibe ↗</a></p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Модалка 3D (Список блоков теперь внутри, добавлена подсказка по управлению) -->
+  <div class="modal" id="modal">
+    <div class="modal-inner">
+      <div class="modal-header">
+        <h3 id="modalTitle">Просмотр схемы</h3>
+        <!-- Подсказка по управлению -->
+        <div class="modal-hint" style="font-size: 12px; color: var(--muted); font-family: var(--font-mono); text-align: center;">
+          WASD — полет | Мышка — обзор | <strong>Esc — вернуть курсор (чтобы листать список)</strong>
+        </div>
+        <button class="close-btn" id="closeModalBtn">✕</button>
+      </div>
+      
+      <div class="viewer-wrapper">
+        <div class="viewer" id="viewer"></div>
+        <!-- Окошко со списком блоков -->
+        <div id="block-info" class="block-info-panel">
+          <h4>Загрузка блоков...</h4>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Подключение скриптов через Vite -->
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
