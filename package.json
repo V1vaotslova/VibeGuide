@@ -15,7 +15,8 @@
   "dependencies": {
     "@kleppe/litematic-reader": "^1.0.11",
     "@mattzh72/lodestone": "^0.6.0",
+    "gl-matrix": "^3.4.4",
     "three": "^0.164.1",
-    "vite": "^8.3.4"
+    "vite": "^6.4.4"
   }
 }

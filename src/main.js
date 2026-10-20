@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import { Litematic } from '@kleppe/litematic-reader'; 
 import './style.css';
 
-// Огромный словарь перевода блоков
+// Словарь перевода блоков
 const blockTranslations = {
   "stone": "Камень", "smooth_stone": "Гладкий камень", "smooth_stone_slab": "Плита из гладкого камня",
   "smooth_stone_stairs": "Ступени из гладкого камня", "cobblestone": "Булыжник", "cobblestone_slab": "Плита из булыжника",
@@ -61,7 +61,344 @@ const blockTranslations = {
   "azalea_leaves": "Листва азалии", "flowering_azalea_leaves": "Цветущая листва азалии"
 };
 
+// Советы дня
+const advices = [
+  "Никогда не копайте строго под себя!",
+  "Криперы боятся кошек. Заведите себе питомца.",
+  "Ведро воды — лучшее оружие против падения в лаву.",
+  "Чтобы найти алмазы, копайте на высоте Y = -58.",
+  "Всегда берите с собой блок печи и верстак в шахту.",
+  "Используйте кровать, чтобы установить точку возрождения.",
+  "Эндермены злятся, если на них смотреть. Не смотрите им в глаза!",
+  "Ферма железа из деревни — это самый простой способ добыть железо.",
+  "Не забудьте про факелы: монстры не спавнятся при хорошем освещении.",
+  "Золотую броню лучше не носить в Незере — пиглины атакуют."
+];
+
 document.addEventListener('DOMContentLoaded', () => {
+  // ===== 0. СЛУЧАЙНЫЙ ШРИФТ И ПЕЧАТЬ =====
+  const fonts = [
+    '"Russo One", sans-serif',
+    '"Play", sans-serif',
+    '"Montserrat", sans-serif',
+    '"Unbounded", sans-serif'
+  ];
+  const randomFont = fonts[Math.floor(Math.random() * fonts.length)];
+  const fontName = randomFont.split(',')[0].replace(/"/g, '');
+
+  document.documentElement.style.setProperty('--font-title', randomFont);
+  
+  const heroTitle = document.querySelector('.hero h1');
+  const sidebarLogo = document.querySelector('.sidebar-logo');
+  const logoFull = document.querySelector('.logo-full');
+
+  if (heroTitle) heroTitle.style.setProperty('font-family', randomFont, 'important');
+  if (sidebarLogo) sidebarLogo.style.setProperty('font-family', randomFont, 'important');
+  if (logoFull) logoFull.style.setProperty('font-family', randomFont, 'important');
+
+  let hasTyped = false; 
+
+  document.fonts.load(`1em "${fontName}"`).then(() => {
+    const heroTextEl = document.getElementById('hero-typewriter');
+    if (heroTextEl && !hasTyped) {
+      hasTyped = true; 
+      heroTextEl.textContent = ''; 
+      setTimeout(() => {
+        let i = 0;
+        const text = 'VibeGuide';
+        function typeHero() {
+          if (i < text.length) {
+            heroTextEl.textContent += text.charAt(i);
+            i++;
+            setTimeout(typeHero, 150);
+          }
+        }
+        typeHero();
+      }, 100);
+    }
+  }).catch(() => {
+    const heroTextEl = document.getElementById('hero-typewriter');
+    if (heroTextEl && !hasTyped) {
+      hasTyped = true; 
+      heroTextEl.textContent = ''; 
+      let i = 0;
+      const text = 'VibeGuide';
+      function typeHero() {
+        if (i < text.length) {
+          heroTextEl.textContent += text.charAt(i);
+          i++;
+          setTimeout(typeHero, 150);
+        }
+      }
+      typeHero();
+    }
+  });
+
+  // ===== 0.5. ИНСТРУМЕНТЫ (КАЛЬКУЛЯТОРЫ И СОВЕТ) =====
+  
+  // 1. Совет дня
+  const adviceEl = document.getElementById('daily-advice');
+  if (adviceEl) {
+    const randomAdvice = advices[Math.floor(Math.random() * advices.length)];
+    adviceEl.textContent = `"${randomAdvice}"`;
+  }
+
+  // 2. Калькулятор крафтов
+  const craftBlocksInput = document.getElementById('craft-input-blocks');
+  const craftSelectType = document.getElementById('craft-select-type');
+  const craftResultEl = document.getElementById('craft-result');
+
+  function updateCraft() {
+    if (!craftBlocksInput || !craftResultEl) return;
+    const blocks = parseInt(craftBlocksInput.value) || 0;
+    const resources = blocks * 9;
+    const type = craftSelectType.value;
+    
+    let unit = 'шт.';
+    if (type === 'diamond') unit = 'алмазов';
+    if (type === 'iron') unit = 'слитков железа';
+    if (type === 'gold') unit = 'слитков золота';
+    if (type === 'emerald') unit = 'изумрудов';
+
+    craftResultEl.innerHTML = `Вам понадобится: <strong>${resources}</strong> ${unit}.`;
+  }
+
+  if (craftBlocksInput) craftBlocksInput.addEventListener('input', updateCraft);
+  if (craftSelectType) craftSelectType.addEventListener('change', updateCraft);
+  updateCraft();
+
+  // 3. Калькулятор урона
+  const dmgMaterial = document.getElementById('dmg-select-material');
+  const dmgSharpness = document.getElementById('dmg-select-sharpness');
+  const dmgResultEl = document.getElementById('dmg-result');
+
+  function updateDamage() {
+    if (!dmgMaterial || !dmgResultEl) return;
+    
+    const baseDamage = parseFloat(dmgMaterial.value) || 0;
+    const sharpnessLevel = parseInt(dmgSharpness.value) || 0;
+    const sharpnessBonus = sharpnessLevel * 1.25;
+    const totalDamage = baseDamage + sharpnessBonus;
+
+    dmgResultEl.innerHTML = `Итоговый урон: <strong>${totalDamage.toFixed(1)}</strong> ед.`;
+  }
+
+  if (dmgMaterial) dmgMaterial.addEventListener('change', updateDamage);
+  if (dmgSharpness) dmgSharpness.addEventListener('change', updateDamage);
+  updateDamage();
+
+  // ===== 4. КОНСТРУКТОР БИЛДОВ (БРОНЯ + ОРУЖИЕ + ИНСТРУМЕНТЫ) =====
+  const buildPurpose = document.getElementById('build-purpose');
+  const armorMaterial = document.getElementById('armor-material');
+  const weaponSelect = document.getElementById('weapon-select');
+
+  const slotHelmet = document.getElementById('slot-helmet');
+  const slotChest = document.getElementById('slot-chest');
+  const slotLegs = document.getElementById('slot-legs');
+  const slotBoots = document.getElementById('slot-boots');
+  const slotWeapon = document.getElementById('slot-weapon');
+
+  const iconHelmet = document.getElementById('icon-helmet');
+  const iconChest = document.getElementById('icon-chest');
+  const iconLegs = document.getElementById('icon-legs');
+  const iconBoots = document.getElementById('icon-boots');
+  const iconWeapon = document.getElementById('icon-weapon');
+
+  const statArmorVal = document.getElementById('stat-armor-val');
+  const statDmgRed = document.getElementById('stat-dmg-red');
+  const statDurability = document.getElementById('stat-durability');
+  const statThorns = document.getElementById('stat-thorns');
+  const statWeaponDmg = document.getElementById('stat-weapon-dmg');
+
+  // База билдов для БРОНИ
+  const builds = {
+    universal: {
+      helmet: ['Защита IV', 'Подводное дыхание III', 'Подводник I', 'Прочность III', 'Починка'],
+      chest: ['Защита IV', 'Шипы III', 'Прочность III', 'Починка'],
+      legs: ['Защита IV', 'Проворство III', 'Прочность III', 'Починка'],
+      boots: ['Защита IV', 'Невесомость IV', 'Подводная ходьба III', 'Прочность III', 'Починка']
+    },
+    nether: {
+      helmet: ['Огнестойкость IV', 'Подводное дыхание III', 'Прочность III', 'Починка'],
+      chest: ['Огнестойкость IV', 'Шипы III', 'Прочность III', 'Починка'],
+      legs: ['Огнестойкость IV', 'Проворство III', 'Прочность III', 'Починка'],
+      boots: ['Огнестойкость IV', 'Невесомость IV', 'Скорость души III', 'Прочность III', 'Починка']
+    },
+    end: {
+      helmet: ['Защита от снарядов IV', 'Подводное дыхание III', 'Прочность III', 'Починка'],
+      chest: ['Защита от снарядов IV', 'Шипы III', 'Прочность III', 'Починка'],
+      legs: ['Защита от снарядов IV', 'Проворство III', 'Прочность III', 'Починка'],
+      boots: ['Защита от снарядов IV', 'Невесомость IV', 'Прочность III', 'Починка']
+    },
+    blast: {
+      helmet: ['Взрывоустойчивость IV', 'Подводное дыхание III', 'Прочность III', 'Починка'],
+      chest: ['Взрывоустойчивость IV', 'Шипы III', 'Прочность III', 'Починка'],
+      legs: ['Взрывоустойчивость IV', 'Проворство III', 'Прочность III', 'Починка'],
+      boots: ['Взрывоустойчивость IV', 'Невесомость IV', 'Прочность III', 'Починка']
+    }
+  };
+
+  // База чар для ОРУЖИЯ И ИНСТРУМЕНТОВ
+  const weaponEnchants = {
+    sword: ['Острота V', 'Разящий клинок III', 'Добыча III', 'Прочность III', 'Починка'],
+    axe: ['Острота V', 'Эффективность V', 'Прочность III', 'Починка'],
+    bow: ['Сила V', 'Отдача II', 'Пламя I', 'Бесконечность', 'Прочность III', 'Починка'],
+    crossbow: ['Быстрая перезарядка III', 'Пробивание IV', 'Мультивыстрел', 'Прочность III', 'Починка'],
+    trident: ['Верность III', 'Пронизывание V', 'Тягун III', 'Прочность III', 'Починка'],
+    pickaxe: ['Эффективность V', 'Удача III (или Шелк)', 'Прочность III', 'Починка'],
+    shovel: ['Эффективность V', 'Удача III', 'Прочность III', 'Починка'],
+    hoe: ['Эффективность V', 'Удача III', 'Прочность III', 'Починка'],
+    fishing_rod: ['Приманка III', 'Удача моря III', 'Прочность III', 'Починка']
+  };
+
+  // Данные о броне (прочность + базовая защита)
+  const armorData = {
+    leather: { helmet: 55, chest: 80, legs: 75, boots: 65, armor: 1 },
+    chainmail: { helmet: 165, chest: 240, legs: 225, boots: 195, armor: 2 },
+    gold: { helmet: 77, chest: 112, legs: 105, boots: 91, armor: 2 },
+    iron: { helmet: 165, chest: 240, legs: 225, boots: 195, armor: 2 },
+    diamond: { helmet: 363, chest: 528, legs: 495, boots: 429, armor: 3 },
+    netherite: { helmet: 407, chest: 592, legs: 555, boots: 481, armor: 3 }
+  };
+
+  // Иконки оружия (ссылки на вики)
+  const weaponIcons = {
+    sword: 'Netherite_Sword',
+    axe: 'Netherite_Axe',
+    bow: 'Bow',
+    crossbow: 'Crossbow',
+    trident: 'Trident',
+    pickaxe: 'Netherite_Pickaxe',
+    shovel: 'Netherite_Shovel',
+    hoe: 'Netherite_Hoe',
+    fishing_rod: 'Fishing_Rod'
+  };
+
+  // Урон/Эффект оружия (для текста статов)
+  const weaponStatsText = {
+    sword: '7.0 (Урон)',
+    axe: '9.0 (Урон)',
+    bow: '9.0 (Урон)',
+    crossbow: '11.0 (Урон)',
+    trident: '8.0 (Урон)',
+    pickaxe: '5.0 (Урон)',
+    shovel: '4.5 (Урон)',
+    hoe: '1.0 (Урон)',
+    fishing_rod: 'Нет урона'
+  };
+
+  function fillSlot(selectEl, enchants) {
+    selectEl.innerHTML = '';
+    enchants.forEach(ench => {
+      const option = document.createElement('option');
+      option.value = ench;
+      option.textContent = ench;
+      option.selected = true;
+      selectEl.appendChild(option);
+    });
+    selectEl.disabled = true;
+  }
+
+  function updateIcons() {
+    const mat = armorMaterial.value;
+    
+    const matMap = {
+      gold: 'Golden',
+      iron: 'Iron',
+      diamond: 'Diamond',
+      netherite: 'Netherite'
+    };
+
+    let prefix = matMap[mat];
+
+    if (mat === 'leather') {
+      iconHelmet.src = `https://minecraft.wiki/images/Invicon_Leather_Cap.png`;
+      iconChest.src = `https://minecraft.wiki/images/Invicon_Leather_Tunic.png`;
+      iconLegs.src = `https://minecraft.wiki/images/Invicon_Leather_Pants.png`;
+      iconBoots.src = `https://minecraft.wiki/images/Invicon_Leather_Boots.png`;
+    } else if (mat === 'chainmail') {
+      iconHelmet.src = `https://minecraft.wiki/images/Invicon_Chainmail_Helmet.png`;
+      iconChest.src = `https://minecraft.wiki/images/Invicon_Chainmail_Chestplate.png`;
+      iconLegs.src = `https://minecraft.wiki/images/Invicon_Chainmail_Leggings.png`;
+      iconBoots.src = `https://minecraft.wiki/images/Invicon_Chainmail_Boots.png`;
+    } else {
+      iconHelmet.src = `https://minecraft.wiki/images/Invicon_${prefix}_Helmet.png`;
+      iconChest.src = `https://minecraft.wiki/images/Invicon_${prefix}_Chestplate.png`;
+      iconLegs.src = `https://minecraft.wiki/images/Invicon_${prefix}_Leggings.png`;
+      iconBoots.src = `https://minecraft.wiki/images/Invicon_${prefix}_Boots.png`;
+    }
+
+    const wep = weaponSelect.value;
+    iconWeapon.src = `https://minecraft.wiki/images/Invicon_${weaponIcons[wep]}.png`;
+  }
+
+  function updateStats() {
+    const purpose = buildPurpose.value;
+    const mat = armorMaterial.value;
+    const wep = weaponSelect.value;
+    const data = armorData[mat];
+
+    fillSlot(slotHelmet, builds[purpose].helmet);
+    fillSlot(slotChest, builds[purpose].chest);
+    fillSlot(slotLegs, builds[purpose].legs);
+    fillSlot(slotBoots, builds[purpose].boots);
+    fillSlot(slotWeapon, weaponEnchants[wep]);
+
+    updateIcons();
+
+    const baseArmor = data.armor * 4; 
+    
+    let dmgRed = 0;
+    let extraText = '';
+
+    if (builds[purpose].helmet.includes('Защита IV')) {
+      dmgRed = Math.min(80, baseArmor * 4);
+    } else {
+      dmgRed = Math.min(80, baseArmor * 3); 
+      if (builds[purpose].helmet.includes('Огнестойкость')) extraText = ' (Огонь)';
+      if (builds[purpose].helmet.includes('Взрывоустойчивость')) extraText = ' (Взрывы)';
+      if (builds[purpose].helmet.includes('Защита от снарядов')) extraText = ' (Снаряды)';
+    }
+
+    statArmorVal.textContent = baseArmor;
+    statDmgRed.textContent = `${dmgRed}%${extraText}`;
+
+    let totalDur = (data.helmet + data.chest + data.legs + data.boots) * 1.75;
+    statDurability.textContent = Math.floor(totalDur);
+
+    const hasThorns = builds[purpose].chest.includes('Шипы III');
+    statThorns.textContent = hasThorns ? '45%' : '0%';
+
+    statWeaponDmg.textContent = weaponStatsText[wep];
+  }
+
+  if (buildPurpose) {
+    buildPurpose.addEventListener('change', updateStats);
+    armorMaterial.addEventListener('change', updateStats);
+    weaponSelect.addEventListener('change', updateStats);
+    updateStats(); 
+  }
+
+  // ===== 5. ПЕРЕКЛЮЧАТЕЛЬ ТЕМ =====
+  const themeToggle = document.getElementById('theme-toggle');
+  const currentTheme = localStorage.getItem('theme') || 'dark';
+
+  if (currentTheme === 'light') {
+    document.body.classList.add('light-theme');
+  }
+
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('light-theme');
+      
+      if (document.body.classList.contains('light-theme')) {
+        localStorage.setItem('theme', 'light');
+      } else {
+        localStorage.setItem('theme', 'dark');
+      }
+    });
+  }
+
   // ===== 1. МОДАЛКА 3D СХЕМ =====
   const modal = document.getElementById('modal');
   const modalTitle = document.getElementById('modalTitle');
@@ -69,7 +406,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const viewer = document.getElementById('viewer');
   const blockInfoPanel = document.getElementById('block-info');
   const hintEl = modal.querySelector('.modal-hint');
-  const downloadLink = document.getElementById('downloadLink'); // Кнопка скачивания
+  const downloadLink = document.getElementById('downloadLink');
 
   let animationFrameId = null;
   let currentRenderer = null;
@@ -78,8 +415,6 @@ document.addEventListener('DOMContentLoaded', () => {
   function translateBlock(blockId) {
     const cleanId = blockId.replace('minecraft:', '');
     if (blockTranslations[cleanId]) return blockTranslations[cleanId];
-    
-    // Умный фолбэк, если блока нет в словаре
     let fallback = cleanId.replace(/_/g, ' ');
     return fallback.charAt(0).toUpperCase() + fallback.slice(1);
   }
@@ -92,28 +427,23 @@ document.addEventListener('DOMContentLoaded', () => {
       modalTitle.textContent = 'VibeGuide 3D: ' + name;
       modal.classList.add('open');
       
-      // === Настраиваем кнопку скачивания ===
       downloadLink.href = `/schemas/${schemaFile}`;
       downloadLink.setAttribute('download', schemaFile);
-      downloadLink.style.opacity = '0.5'; // Делаем полупрозрачной, пока идет загрузка
+      downloadLink.style.opacity = '0.5'; 
       downloadLink.textContent = 'Скачать схему (.litematic)';
 
       viewer.innerHTML = '<div style="color: var(--muted); font-family: var(--font-mono); display:flex; align-items:center; justify-content:center; height:100%;">Загрузка 3D модели...</div>';
       blockInfoPanel.innerHTML = '<h4>Считаем блоки...</h4>';
 
       try {
-        // 1. Загружаем файл схемы
         const response = await fetch(`/schemas/${schemaFile}`);
         if (!response.ok) throw new Error('Файл схемы не найден');
         const buffer = await response.arrayBuffer();
         
-        // Активируем кнопку скачивания
         downloadLink.style.opacity = '1';
 
-        // 2. Парсим 3D структуру
         const structure = LitematicLoader.load(new Uint8Array(buffer));
 
-        // 3. Парсим список блоков с переводом и сортировкой
         try {
           const litematicReader = new Litematic(buffer);
           const palette = await litematicReader.getBlockPaletteWithCount();
@@ -135,15 +465,12 @@ document.addEventListener('DOMContentLoaded', () => {
           
           blockInfoPanel.innerHTML = html;
         } catch (e) {
-          console.warn("Ошибка парсинга блоков", e);
           blockInfoPanel.innerHTML = '<h4>Ошибка</h4><p>Не удалось прочитать список блоков.</p>';
         }
 
-        // 4. Загружаем текстуры
         const baseUrl = 'https://unpkg.com/@mattzh72/lodestone@0.6.0/assets/default-pack/';
         const { resources } = await loadDefaultPackResources({ baseUrl });
 
-        // 5. Создаем canvas
         viewer.innerHTML = '';
         const canvas = document.createElement('canvas');
         canvas.style.width = '100%';
@@ -155,11 +482,9 @@ document.addEventListener('DOMContentLoaded', () => {
         canvas.width = width;
         canvas.height = height;
 
-        // 6. Настраиваем рендерер
         const renderer = new ThreeStructureRenderer(canvas, structure, resources);
         renderer.setViewport(0, 0, width, height);
         
-        // === НАСТРОЙКА ПОЛЕТА КАМЕРЫ (WASD) ===
         const camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 1000);
         camera.position.set(15, 15, 15); 
         
@@ -168,9 +493,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         hintEl.innerHTML = 'WASD — полет | Мышка — обзор | <strong>Кликни по 3D, чтобы начать</strong>';
 
-        canvas.addEventListener('click', () => {
-          canvas.requestPointerLock();
-        });
+        canvas.addEventListener('click', () => canvas.requestPointerLock());
 
         document.addEventListener('pointerlockchange', () => {
           if (document.pointerLockElement === canvas) {
@@ -233,7 +556,6 @@ document.addEventListener('DOMContentLoaded', () => {
       } catch (error) {
         console.error(error);
         viewer.innerHTML = `<div style="color: #e74c3c; padding: 20px; text-align:center;">Ошибка: ${error.message}</div>`;
-        // Если файл не загрузился, отключаем кнопку
         downloadLink.style.opacity = '0.5';
         downloadLink.textContent = 'Файл не найден';
         downloadLink.removeAttribute('href');
@@ -257,18 +579,23 @@ document.addEventListener('DOMContentLoaded', () => {
   modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
 
-
-  // ===== ОСТАЛЬНОЙ КОД (АНИМАЦИИ, ГАЙДЫ, САЙДБАР) =====
-  const animatedElements = document.querySelectorAll('.hero-tag, .hero p, .hero-stats, .btn-row, .section-header, .grid, .ench-grid, .guide-accordion');
+  // ===== 2. АНИМАЦИИ И ОСТАЛЬНОЕ =====
+  // Убираем анимацию исчезновения, чтобы не было дерганий при скролле
+  const animatedElements = document.querySelectorAll('.hero-tag, .hero p, .hero-stats, .btn-row, .section-header, .grid, .ench-grid, .guide-accordion, .tools-grid, .armor-builder');
+  
   animatedElements.forEach(el => el.classList.add('fade-up'));
 
   const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
-  const observer = new IntersectionObserver((entries) => {
+  
+  const observer = new IntersectionObserver((entries, obs) => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) entry.target.classList.add('visible');
-      else entry.target.classList.remove('visible');
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        obs.unobserve(entry.target); // <-- ВАЖНО: отключаем слежку после появления
+      }
     });
   }, observerOptions);
+
   animatedElements.forEach(el => observer.observe(el));
 
   const guideToggles = document.querySelectorAll('.guide-toggle');
@@ -302,21 +629,4 @@ document.addEventListener('DOMContentLoaded', () => {
       if (link.getAttribute('href') === `#${current}`) link.classList.add('active');
     });
   });
-
-  const heroTextEl = document.getElementById('hero-typewriter');
-  if (heroTextEl) {
-    setTimeout(() => {
-      let i = 0;
-      const text = 'VibeGuide';
-      heroTextEl.textContent = ''; 
-      function typeHero() {
-        if (i < text.length) {
-          heroTextEl.textContent += text.charAt(i);
-          i++;
-          setTimeout(typeHero, 150);
-        }
-      }
-      typeHero();
-    }, 300); 
-  }
 });

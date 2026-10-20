@@ -5,9 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VibeGuide — Гайд по Minecraft для PlusVibe</title>
 
+  <!-- Подключаем несколько шрифтов для случайного выбора -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono:wght@400;700;800&family=Montserrat:wght@800&family=Play:wght@700&family=Russo+One&family=Unbounded:wght@800&display=swap" rel="stylesheet">
 
+  <!-- Подключение стилей через Vite -->
   <link rel="stylesheet" href="/src/style.css">
 </head>
 <body>
@@ -18,6 +21,14 @@
       <span class="logo-letter">V</span>
       <span class="logo-full">VibeGuide<span class="cursor">_</span></span>
     </div>
+
+    <!-- Кнопка темы -->
+    <button id="theme-toggle" class="theme-toggle" title="Сменить тему">
+      <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+      </svg>
+      <span class="sidebar-text">Сменить тему</span>
+    </button>
     
     <nav class="sidebar-nav">
       <a href="#schemas" class="sidebar-link">
@@ -42,6 +53,13 @@
           <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
         </svg>
         <span class="sidebar-text">Гайды</span>
+      </a>
+
+      <a href="#tools" class="sidebar-link">
+        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+        </svg>
+        <span class="sidebar-text">Инструменты</span>
       </a>
     </nav>
 
@@ -102,7 +120,7 @@
 
         <div class="grid">
           <div class="card" data-schema="iron_farm.litematic" data-name="Ферма железа">
-            <div class="card-thumb" style="background-image: url('/img/iron_farm.jpg');"></div>
+            <div class="card-thumb" style="background-image: url('/img/iron_farm.webp');"></div>
             <div class="card-body">
               <h3>Ферма железа</h3>
               <p>Классическая деревенская ферма на 300+ слитков в час.</p>
@@ -111,7 +129,7 @@
           </div>
           
           <div class="card" data-schema="creeper_farm.litematic" data-name="Ферма криперов">
-            <div class="card-thumb" style="background-image: url('/img/creeper_farm.jpg');"></div>
+            <div class="card-thumb" style="background-image: url('/img/creeper_farm.webp');"></div>
             <div class="card-body">
               <h3>Ферма криперов</h3>
               <p>Порох и головы. Компактная схема 21×21×35.</p>
@@ -367,6 +385,172 @@
               </ul>
             </div>
           </div>
+
+          <div class="guide-item">
+            <button class="guide-toggle">
+              <span>Как зайти на сервер PlusVibe (Инструкция)</span>
+              <span class="guide-icon">+</span>
+            </button>
+            <div class="guide-content">
+              <p>Добро пожаловать в наш мир! Чтобы начать играть, выполни эти шаги:</p>
+              <ol>
+                <li><strong>Запусти Minecraft:</strong> Открой лаунчер (рекомендуем <em>TLauncher</em> или официальный), выбери версию <strong>1.21.11</strong> (или ту, что указана на сайте сервера).</li>
+                <li><strong>Скопируй IP:</strong> Адрес сервера: <code>play-plusvibe.ru</code> (нажми, чтобы скопировать).</li>
+                <li><strong>Добавь сервер:</strong> В игре нажми «Сетевая игра» -> «Добавить» -> Вставь IP в поле «Адрес сервера».</li>
+                <li><strong>Заходи:</strong> Выбери сервер из списка и жми «Подключиться».</li>
+                <li><strong>Регистрация:</strong> Если ты впервые, введи <code>/reg пароль пароль</code>. Если уже играл — <code>/login пароль</code>.</li>
+                <li><strong>Читай правила:</strong> Игнорирование правил (гриферство, читы) приведет к бану. Играй честно!</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== ИНСТРУМЕНТЫ ===== -->
+      <section id="tools">
+        <div class="section-header">
+          <span class="section-tag">// UTILS</span>
+          <h2 class="section-title">ИНСТРУМЕНТЫ ИГРОКА</h2>
+        </div>
+        <p class="section-sub">Полезные калькуляторы и генераторы для выживания.</p>
+
+        <div class="advice-box pixel-box" style="padding: 24px; margin-bottom: 40px; border-left: 4px solid var(--gold);">
+          <h3 style="color: var(--gold); margin-bottom: 12px; font-family: var(--font-mono);">СОВЕТ ДНЯ</h3>
+          <p id="daily-advice" style="font-size: 16px; font-style: italic; color: var(--text);">Загрузка совета...</p>
+        </div>
+
+        <div class="tools-grid">
+          <div class="tool-card pixel-box">
+            <h3>Блоки из ресурсов</h3>
+            <p style="color: var(--muted); font-size: 14px; margin-bottom: 16px;">Узнай, сколько ресурсов нужно для постройки.</p>
+            
+            <label style="font-size: 12px; color: var(--muted);">Сколько блоков нужно?</label>
+            <input type="number" id="craft-input-blocks" value="1" min="1" style="margin: 8px 0 16px;">
+
+            <label style="font-size: 12px; color: var(--muted);">Тип блока</label>
+            <select id="craft-select-type" style="margin: 8px 0 16px;">
+              <option value="diamond">Алмазный блок</option>
+              <option value="iron">Железный блок</option>
+              <option value="gold">Золотой блок</option>
+              <option value="emerald">Изумрудный блок</option>
+            </select>
+
+            <div id="craft-result" style="background: var(--bg); padding: 16px; border-radius: 4px; font-family: var(--font-mono); font-size: 16px; text-align: center; color: var(--green);">
+              Вам понадобится: <strong>9</strong> шт.
+            </div>
+          </div>
+
+          <div class="tool-card pixel-box">
+            <h3>Калькулятор урона (Меч)</h3>
+            <p style="color: var(--muted); font-size: 14px; margin-bottom: 16px;">Рассчитай урон с учетом зачарований.</p>
+            
+            <label style="font-size: 12px; color: var(--muted);">Материал меча</label>
+            <select id="dmg-select-material" style="margin: 8px 0 16px;">
+              <option value="7">Незеритовый (7 ед.)</option>
+              <option value="7">Алмазный (7 ед.)</option>
+              <option value="6">Железный (6 ед.)</option>
+              <option value="5">Каменный (5 ед.)</option>
+              <option value="4">Деревянный (4 ед.)</option>
+            </select>
+
+            <label style="font-size: 12px; color: var(--muted);">Уровень Остроты</label>
+            <select id="dmg-select-sharpness" style="margin: 8px 0 16px;">
+              <option value="0">Нет</option>
+              <option value="1">Острота I (+1.25)</option>
+              <option value="2">Острота II (+2.5)</option>
+              <option value="3">Острота III (+3.75)</option>
+              <option value="4">Острота IV (+5.0)</option>
+              <option value="5">Острота V (+6.25)</option>
+            </select>
+
+            <div id="dmg-result" style="background: var(--bg); padding: 16px; border-radius: 4px; font-family: var(--font-mono); font-size: 16px; text-align: center; color: var(--red);">
+              Итоговый урон: <strong>7.0</strong> ед.
+            </div>
+          </div>
+        </div>
+
+        <!-- КОНСТРУКТОР ЗАЧАРОВАНИЙ -->
+        <div class="armor-builder pixel-box" style="margin-top: 40px; padding: 24px;">
+          <h3 style="color: var(--green); font-family: var(--font-mono); margin-bottom: 8px;">КОНСТРУКТОР БИЛДОВ</h3>
+          <p style="color: var(--muted); font-size: 14px; margin-bottom: 24px;">Собери идеальный сет брони и оружия/инструментов под свою задачу.</p>
+
+          <div style="display: flex; gap: 24px; margin-bottom: 24px; flex-wrap: wrap;">
+            <div class="slot-group" style="flex: 1; min-width: 200px;">
+              <label>Цель (Билд)</label>
+              <select id="build-purpose">
+                <option value="universal">Универсальный (Выживание)</option>
+                <option value="nether">Незер / Лавовые походы</option>
+                <option value="end">Охота на Шалкеров / Энд</option>
+                <option value="blast">Против взрывов (Криперы, TNT)</option>
+              </select>
+            </div>
+            <div class="slot-group" style="flex: 1; min-width: 200px;">
+              <label>Материал брони</label>
+              <select id="armor-material">
+                <option value="leather">Кожа</option>
+                <option value="chainmail">Кольчуга</option>
+                <option value="gold">Золото</option>
+                <option value="iron">Железо</option>
+                <option value="diamond">Алмаз</option>
+                <option value="netherite">Незерит</option>
+              </select>
+            </div>
+            <div class="slot-group" style="flex: 1; min-width: 200px;">
+              <label>Оружие / Инструмент</label>
+              <select id="weapon-select">
+                <optgroup label="Оружие">
+                  <option value="sword">Меч</option>
+                  <option value="axe">Топор</option>
+                  <option value="bow">Лук</option>
+                  <option value="crossbow">Арбалет</option>
+                  <option value="trident">Трезубец</option>
+                </optgroup>
+                <optgroup label="Инструменты">
+                  <option value="pickaxe">Кирка</option>
+                  <option value="shovel">Лопата</option>
+                  <option value="hoe">Мотыга</option>
+                  <option value="fishing_rod">Удочка</option>
+                </optgroup>
+              </select>
+            </div>
+          </div>
+
+          <div class="armor-layout">
+            <div class="armor-slots">
+              <div class="slot-group">
+                <label><img src="" alt="Шлем" class="slot-icon" id="icon-helmet"> Шлем</label>
+                <select id="slot-helmet" class="ench-list" multiple size="4"></select>
+              </div>
+              <div class="slot-group">
+                <label><img src="" alt="Нагрудник" class="slot-icon" id="icon-chest"> Нагрудник</label>
+                <select id="slot-chest" class="ench-list" multiple size="4"></select>
+              </div>
+              <div class="slot-group">
+                <label><img src="" alt="Штаны" class="slot-icon" id="icon-legs"> Штаны</label>
+                <select id="slot-legs" class="ench-list" multiple size="4"></select>
+              </div>
+              <div class="slot-group">
+                <label><img src="" alt="Ботинки" class="slot-icon" id="icon-boots"> Ботинки</label>
+                <select id="slot-boots" class="ench-list" multiple size="4"></select>
+              </div>
+            </div>
+
+            <div class="weapon-slots">
+              <div class="slot-group">
+                <label><img src="" alt="Оружие" class="slot-icon" id="icon-weapon"> Оружие</label>
+                <select id="slot-weapon" class="ench-list" multiple size="4"></select>
+              </div>
+            </div>
+
+            <div class="armor-stats">
+              <h4>ИТОГОВЫЕ СТАТЫ:</h4>
+              <div class="stat-row"><span>Общая защита:</span> <strong id="stat-armor-val">0</strong></div>
+              <div class="stat-row"><span>Снижение урона:</span> <strong id="stat-dmg-red">0%</strong></div>
+              <div class="stat-row"><span>Макс. прочность:</span> <strong id="stat-durability">0</strong></div>
+              <div class="stat-row"><span>Шанс шипов:</span> <strong id="stat-thorns">0%</strong></div>
+              <div class="stat-row"><span>Урон/Эффект:</span> <strong id="stat-weapon-dmg">0</strong></div>
+            </div>
+          </div>
         </div>
       </section>
     </div>
@@ -397,7 +581,6 @@
         </div>
       </div>
 
-      <!-- НОВАЯ ПАНЕЛЬ ДЛЯ СКАЧИВАНИЯ -->
       <div class="modal-footer">
         <a href="#" id="downloadLink" class="btn btn-green" download style="width: 100%; text-align: center;">
           Скачать схему (.litematic)
